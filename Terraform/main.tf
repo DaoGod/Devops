@@ -7,9 +7,11 @@ terraform {
   }
 }
 
+#Création de l'Instance
+
 provider "aws" {
   region     = var.region
-
+  
 }
 
 resource "aws_default_vpc" "default" {
@@ -40,9 +42,6 @@ resource "aws_instance" "web" {
   instance_type = var.instance_type
   key_name = var.sshkey
 
-  tags = {
-    Name = var.instance_name
-  }
 }
 
 #Céation Security group
@@ -59,9 +58,17 @@ description = "Allow SSH"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "HTTP Port"
+    from_port = var.port-http
+    to_port = var.port-http
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+}
+  
   egress {
-    from_port   = var.port-http
-    to_port     = var.port-http
+    from_port   = 0
+    to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
