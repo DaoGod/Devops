@@ -41,7 +41,14 @@ resource "aws_instance" "web" {
   ami           = var.ami
   instance_type = var.instance_type
   key_name = var.sshkey
-
+  vpc_security_group_ids = [aws_security_group.allow_ssh_enzo.id]
+  
+  provisioner "local-exec" {
+     command = "sed '2d' Ansible/hosts > Ansible/valtemp; mv Ansible/valtemp Ansible/hosts"
+ }
+  provisioner "local-exec" {
+     command = "echo ${aws_instance.web[count.index].public_ip} | tee -a Ansible/hosts"
+ }
 }
 
 #Céation Security group
