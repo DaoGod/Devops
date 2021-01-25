@@ -1,5 +1,21 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
+}
+
 provider "aws" {
   region     = var.region
+
+}
+
+resource "aws_default_vpc" "default" {
+  tags = {
+    Name = var.instance_name
+ }
 }
 
 data "aws_ami" "ubuntu" {
@@ -37,15 +53,15 @@ description = "Allow SSH"
 
   ingress {
     description = "SSH Port"
-    from_port   = 22
-    to_port     = 22
+    from_port   = var.port-ssh
+    to_port     = var.port-ssh
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = var.port-http
+    to_port     = var.port-http
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }

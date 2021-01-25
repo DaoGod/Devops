@@ -47,3 +47,14 @@ variable "sshkey" {
   type = string
   default = "tp_dev_ynov"
 }
+
+variable "port-ssh" {
+  type = number
+  description = "port ssh"
+  default = 22
+}
+variable "port-http" {
+  type = number
+  description = "port http"
+  default = 80
+}
