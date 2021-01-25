@@ -42,6 +42,8 @@ resource "aws_instance" "web" {
   instance_type = var.instance_type
   key_name = var.sshkey
 
+  provisioner "local-exec" {
+	command = "ansible-playbook --private-key=./tp_dev_ynov.pem -i instance_aws.web.*.ip_adress Ansible/nginx.yml
 }
 
 #Céation Security group

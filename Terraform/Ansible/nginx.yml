@@ -7,6 +7,14 @@
        apt:
         name: nginx
         update_cache: true
+        
+     - name: Clean Nginx HTML File   
+       file: path=/var/www/html state=absent
+
+     - name: Clone Repository 
+       git: >
+        repo=https://github.com/DaoGod/Devops-TP-Final.git
+        dest=/var/www/html
 
     handlers:
      - name: start Nginx
